@@ -48,6 +48,7 @@ export default {
       });
       this.socket.on("arnold", data => {
         console.log(data);
+        responsiveVoice.speak( data, "French Male", {pitch: 1, volume: 3});
       });
     },
     nextSlide(){
