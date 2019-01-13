@@ -7,7 +7,7 @@ import VueSocketIO from "vue-socket.io";
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "http://192.168.0.47:1337"
+    connection: "http://localhost:1337"
   })
 );
 

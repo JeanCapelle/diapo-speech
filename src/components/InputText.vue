@@ -36,7 +36,7 @@ export default {
         lang: "fr-Fr",
         sessionId: "remoteapp"
       };
-
+      this.$socket.send(text);
       axios
         .post(`${baseURL}`, data, {
           headers: { Authorization: `Bearer ${token}` }
@@ -44,8 +44,9 @@ export default {
         .then(response => {
           const dialogFlowResponse = JSON.parse(response.request.response);
           const parameters = dialogFlowResponse.result.parameters || null;
-          if (parameters) {
-            this.$socket.send(parameters.etape);
+
+          if (parameters && parameters.etape) {
+            // this.$socket.send(parameters.etape);
           }
         })
         .catch(error => {
@@ -55,7 +56,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
