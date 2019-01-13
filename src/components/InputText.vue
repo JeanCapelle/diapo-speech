@@ -30,8 +30,6 @@ export default {
       this.sendText(this.transcripted);
     },
     sendText(text) {
-      console.log(text);
-
       const baseURL = "https://api.dialogflow.com/v1/query?v=20170712";
       const token = "ad977ccc6ca04209942b49c7ead14c09";
       let data = {
@@ -47,8 +45,12 @@ export default {
         .then(response => {
           const dialogFlowResponse = JSON.parse(response.request.response);
           const parameters = dialogFlowResponse.result.parameters || null;
-          console.log(dialogFlowResponse);
+          console.log(parameters.diapo);
 
+          if (parameters && parameters.diapo === '') {
+            console.log('arnold called');
+            this.socket.emit("arnold", dialogFlowResponse);
+          }
           if (parameters && parameters.etape) {
             this.socket.emit("STEP", parameters.etape);
           }
