@@ -10,9 +10,13 @@ io.on("connection", socket => {
   //   socket.emit("STEP", { hello: "world" });
   // });
 
+  socket.on("arnold", data => {
+    console.log("emit new step:", data.result.fulfillment.speech);
+    io.emit("arnold",  data.result.fulfillment.speech);
+  });
   socket.on("STEP", data => {
     console.log("emit new step:", data);
-    io.emit("NEW_STEP", { data });
+    io.emit("NEW_STEP",  data );
   });
 
   socket.on("disconnect", () => {

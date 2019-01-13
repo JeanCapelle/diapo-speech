@@ -1,28 +1,34 @@
 <template>
   <div>
     <div class="slider-container">
-      <section class="slide" id="1">slide</section>
-      <section class="slide" id="2">slide</section>
-      <section class="slide" id="3">slide</section>
-      <section class="slide" id="4">slide</section>
-      <section class="slide" id="5">slide</section>
+      <section class="slide" v-if="counter === 1"><Slide1/></section>
+      <section class="slide" v-if="counter === 2">slide 2</section>
+      <section class="slide" v-if="counter === 3">slide 3</section>
+      <section class="slide" v-if="counter === 4">slide 4</section>
+      <section class="slide" v-if="counter === 5">slide 5</section>
     </div>
     <div class="control">
       <button @click="nextSlide">Suivant</button>  
+      <button @click="previousSlide">Précédent</button>  
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import socketIo from "socket.io-client";
+import Slide1 from "@/components/slides/Slide1.vue";
 export default {
   name: "Diapo",
-  components: {},
+  components: {
+    Slide1
+  },
   data() {
     
     return {
       socket: socketIo("http://localhost:1337"),
-      counter : 1
+      counter : 1,
+      totalSlide: 5
     };
   },
 
@@ -33,10 +39,29 @@ export default {
     onNewStep() {
       this.socket.on("NEW_STEP", data => {
         console.log(data);
+        if(data === 'suivante'){
+          this.nextSlide()
+        }
+        if(data === 'précédente'){
+          this.previousSlide()
+        }
+      });
+      this.socket.on("arnold", data => {
+        console.log(data);
+        responsiveVoice.speak( data, "French Male", {pitch: 1, volume: 3});
       });
     },
     nextSlide(){
-      this.counter += 1;
+      const counter = this.counter + 1;
+      if(counter <= this.totalSlide) {
+        this.counter += 1;
+      }
+    },
+    previousSlide(){
+      const counter = this.counter - 1;
+      if(counter >= 0) {
+        this.counter -= 1;
+      }
     }
   }
 };
