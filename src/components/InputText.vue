@@ -10,6 +10,8 @@
 <script>
 import axios from "axios";
 import Speech from "./Speech.vue";
+import socketIo from "socket.io-client";
+
 export default {
   name: "InputText",
   components: {
@@ -18,7 +20,8 @@ export default {
   data() {
     return {
       message: "",
-      transcripted: ""
+      transcripted: "",
+      socket: socketIo("http://localhost:1337")
     };
   },
   methods: {
@@ -36,7 +39,7 @@ export default {
         lang: "fr-Fr",
         sessionId: "remoteapp"
       };
-      this.$socket.send(text);
+
       axios
         .post(`${baseURL}`, data, {
           headers: { Authorization: `Bearer ${token}` }
@@ -44,9 +47,10 @@ export default {
         .then(response => {
           const dialogFlowResponse = JSON.parse(response.request.response);
           const parameters = dialogFlowResponse.result.parameters || null;
+          console.log(dialogFlowResponse);
 
           if (parameters && parameters.etape) {
-            // this.$socket.send(parameters.etape);
+            this.socket.emit("STEP", parameters.etape);
           }
         })
         .catch(error => {
