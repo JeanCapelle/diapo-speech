@@ -1,6 +1,6 @@
 <template>
   <div id="slide1">
-      BOmbi
+      Première slide
   </div>
 </template>
 

@@ -9,9 +9,12 @@ io.on("connection", socket => {
   //   console.log(`New message : ${msg}`);
   //   socket.emit("STEP", { hello: "world" });
   // });
-
+  socket.on("response", data => {
+    console.log("response:", data);
+    io.emit("response",  data);
+  });
   socket.on("arnold", data => {
-    console.log("emit new step:", data.result.fulfillment.speech);
+    console.log("activation arnold:", data.result.fulfillment.speech);
     io.emit("arnold",  data.result.fulfillment.speech);
   });
   socket.on("STEP", data => {

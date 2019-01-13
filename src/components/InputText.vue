@@ -45,14 +45,15 @@ export default {
         .then(response => {
           const dialogFlowResponse = JSON.parse(response.request.response);
           const parameters = dialogFlowResponse.result.parameters || null;
-          console.log(parameters.diapo);
+          
+          this.socket.emit('response', dialogFlowResponse);          
 
           if (parameters && parameters.diapo === '') {
             console.log('arnold called');
             this.socket.emit("arnold", dialogFlowResponse);
           }
           if (parameters && parameters.etape) {
-            this.socket.emit("STEP", parameters.etape);
+            this.socket.emit("STEP", dialogFlowResponse);
           }
         })
         .catch(error => {
