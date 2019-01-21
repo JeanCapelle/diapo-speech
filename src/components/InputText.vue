@@ -54,7 +54,6 @@ export default {
           // console.log(dialogFlowResponse);
           const parameters = dialogFlowResponse.result.parameters || null;
           
-          const chatbot = 'terme gén'
           if (parameters && parameters.diapo === '') {
             console.log('arnold called');
             this.socket.emit("arnold", dialogFlowResponse);
@@ -72,6 +71,7 @@ export default {
           }
           else if (parameters && parameters.bonjour) {
             this.socket.emit("bonjour", dialogFlowResponse);
+            console.log('bonjour');
           }
           else if (parameters && parameters.url) {
             this.socket.emit("url", dialogFlowResponse);

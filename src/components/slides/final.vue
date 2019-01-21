@@ -5,13 +5,31 @@
   <div class="crawl">
     
     <div class="title">
-      <p>Remerciement</p>
-      <h1>Merci de de votre temps</h1>
+      <h1>Merci à vous</h1>
     </div>
     
-    <p>It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire.</p>     
-    <p>During the battle, Rebel spies managed to steal secret plans to the Empire’s ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet.</p>
-    <p>Pursued by the Empire’s sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy…</p>
+    <p> Je souhaite adresser mes remerciements aux personnes qui m’ont accompagné dans la rédaction de cette thèse ainsi que les personnes qui m’ont permis
+de la rédiger.
+Tout d’abord, je souhaite remercier Yann NICODEME, CEO de la société qui
+m’a accompagnée dans le choix du sujet à aborder dans cette thèse professionnelle ainsi que toute l’équipe de Switfi pour leur accompagnement ainsi que
+leur bienveillance.</p>
+<p>
+Je souhaite adresser mes remerciements à l’ensemble des répondants à
+mes demandes d’interviews. Tel que Antonin BARTHÉLEMY, Sèverine OLIVIER et Patrick
+Meyer, qui m’ont permis d’apporter une réelle vision technique et opérationnelle au
+sujet ainsi que de soulever les hypothèses auxquelles j’ai pu être confronté. Je
+tiens également à souligner l’importance de mes échanges avec Gilles VEIRA,
+qui a répondu à toutes mes questions après sa conférence tenu lors d’un Meetup
+sur les chatbots.</p>
+<p>Je tiens également à remercier ma mère, Marie-Noëlle CAPELLE et ma soeur
+Julie CAPELLE, mon ami Nicolas DERRIEN (un parfait homonyme du chargé d’affaire du CESI) et Magali RAYNARD pour leurs relectures et l’expression de leurs
+ressentis avant le rendu.</p>
+Pour finir, je tiens à remercier l’ensemble du personnel du CESI de Montpellier pour m’avoir
+<p>
+permis de rédiger cette thèse, tout particulièrement Jean-Pierre HAUGEMAT pour son
+accompagnement pédagogique durant mes travaux de recherches. Je remercie
+également quelques intervenants du CESI comme Marion GASNE pour son aide
+à la création du préambule en anglais.</p>
 
   </div>
 
@@ -20,7 +38,12 @@
 </template>
 
 <script>
-
+    export default {
+        props: ['myProp'],
+        mounted() {
+            console.log(this.myProp); // foobar
+        }
+    };
 </script>
 <style>
 body {
@@ -34,12 +57,14 @@ body {
   position: relative;
   width: 100%;
   min-height: 60vh;
-  top: -25px;
+  top: -250px;
   background-image: linear-gradient(0deg, transparent, black 75%);
   z-index: 1;
 }
 
 .star-wars {
+  position: fixed;
+  z-index: 5;
   display: flex;
   justify-content: center;
   position: relative;

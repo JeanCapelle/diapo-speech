@@ -14,7 +14,7 @@ io.on("connection", socket => {
     io.emit("response",  data);
   });
   socket.on("arnold", data => {
-    io.emit("arnold",  data.result.fulfillment.speech);
+    io.emit("arnold",  data);
   });
   socket.on("STEP", data => {
     io.emit("NEW_STEP",  data );

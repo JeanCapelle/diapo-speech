@@ -1,11 +1,15 @@
 <template>
   <div>
-    <div class="slider-container">
-        <test v-if="counter <= totalSlide" :my-prop="counter"></test>
-        <section class="slide" v-if="counter === totalSlide"><final/></section>
+    <div class="slider-container"  @click.left="leftClick()" @click.right="rightClick()">
+        <test v-if="counter <= totalSlide" :my-prop="counter"   ></test>
+    </div>
+    <div v-if="counter == 3" class="video-wrap">
+        <video width="100%" height="auto" controls autoplay preload="metadata">
+        <source src="https://www.switfi.fr/wp-content/themes/twentysixteen/img/video.mp4" type="video/mp4">
+        </video>
     </div>
 
-    <div class="control">
+    <div class="control"  v-if="showCommand">
       <button @click="previousSlide">Précédent</button>
       <button @click="nextSlide">Suivant</button>  
     </div>
@@ -21,23 +25,24 @@
 </template>
 
 <script>
+// eslint-disable-next-line 
 /* eslint-disable */
 import socketIo from "socket.io-client";
 import test from "@/components/slides/test.vue";
-// import final from "@/components/slides/final.vue";
+
 
 export default {
   name: "Diapo",
   components: {
     test,
-    // final
   },
   data() {
     return {
       socket: socketIo("http://localhost:1337"),
       counter : 1,
-      totalSlide: 28,
+      totalSlide: 29,
       showArnold: false,
+      showCommand: false,
       speechCommand: '',
       hello: 'foobar'
  
@@ -49,24 +54,29 @@ export default {
     this.onNewStep();
     this.onRemoveArnold();
     this.onSayHello();
-    this.onResponse();
+    // this.onResponse();
     this.onOpenUrl();
     this.closeUrl();
 
   },
   methods: {
-    onResponse(){
-      this.socket.on("response", data => {
-        console.log(data);
-        // this.speechCommand = data.result.fulfillment.speech;
-      });      
+    leftClick () {
+      this.nextSlide();    
     },
+    rightClick(){
+      this.previousSlide();
+    },
+    // onResponse(){
+    //   this.socket.on("response", data => {
+    //     console.log(data);
+    //   });      
+    // },
     onArnold(){
       this.socket.on("arnold", data => {
         console.log(data);
-
+        // this.speechCommand = data.result.resolvedQuery;
         this.showArnold = true;
-        this.textToSpeech(data);
+        this.textToSpeech(data.result.fulfillment.speech);
       });
     },
     onNewStep() {
@@ -114,7 +124,6 @@ export default {
     },
     onSayHello() {
       this.socket.on("BONJOUR_JURY", data => {
-      // console.log(data);
         this.textToSpeech(data.result.fulfillment.speech);
         // this.showArnold = false;   
 
@@ -148,6 +157,7 @@ export default {
         msg.text = `${dataText}`;
         msg.lang = 'fr-FR';
         speechSynthesis.speak(msg);
+        console.log( msg);  
     }
   }
 };
@@ -170,14 +180,14 @@ export default {
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .fade-enter-active {
-  transition: all .3s ease;
+  transition: all .4s ease;
 }
 .fade-leave-active {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
+  transform: translatey(10px);
   opacity: 0;
 }
 
@@ -193,11 +203,25 @@ export default {
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     border-radius: 8px;
+    display: none;
   }
 }
-
+.video-wrap{
+  position: absolute;
+    bottom: 10px;
+    right: 50px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+video{
+    max-width: 70%;
+    vertical-align: middle;
+    /* height: 400px; */
+    background-color: #5f3476;
+}
   img{
-    width: 450px;
+    width: 370px;
     position: fixed;
     bottom: 0;
     right: 10px;

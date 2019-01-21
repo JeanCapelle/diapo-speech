@@ -1,14 +1,21 @@
 <template>
-<div>
-    <img class="background" v-bind:src="'slide' + myProp+'.jpg'" /> 
+<div >
+ 
+<div v-if="myProp < 29">   <img class="background"  v-bind:src="'slide' + myProp+'.jpg'" /> </div>
+<div v-if="myProp == 29"> <final/>  </div>
 </div>
+    
 </template>
 
 <script>
+import final from "@/components/slides/final.vue";
     export default {
+        components:{
+            final
+
+        },
         props: ['myProp'],
         mounted() {
-            console.log(this.myProp); // foobar
         }
     };
 </script>
@@ -22,4 +29,5 @@ body{
   height:100vh;
 
 }
+
 </style>
